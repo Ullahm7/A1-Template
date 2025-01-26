@@ -1,19 +1,51 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class Direction {
-    public static final String NORTH = "N";
-    public static final String EAST = "E";
-    public static final String SOUTH = "S";
-    public static final String WEST = "W";
 
-    //logic for left and right turns
-    public static String turnLeft(String direction) {
-        //implement turn logic: N -> W, E -> N, etc
-        return newDirection;
+    private static final String[] DIRECTIONS = {"NORTH", "EAST", "SOUTH", "WEST"};
+    private int index; //used to track direction
+
+    public Direction(String initialDirection) {
+        //initializing directional index based on the initial direction using a switch statement
+        switch (initialDirection) {
+            case "NORTH":
+                this.index = 0;
+                break;
+            case "EAST":
+                this.index = 1;
+                break;
+            case "SOUTH":
+                this.index = 2;
+                break;
+            case "WEST":
+                this.index = 3;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid initial direction");
+        }
     }
 
-    public static String turnRight(String direction) {
-        //implement turn logic: N -> E, W -> N, etc
-        return newDirection;
+    public String getCurrentDirection() {
+
+        return DIRECTIONS[index];
+
+    }
+
+    public void turnLeft() {
+
+        index = (index + 3) % 4; //turn left (counter-clockwise)
+
+    }
+
+    public void turnRight() {
+
+        index = (index + 1) % 4; //turn right (clockwise)
+
+    }
+
+    public int getIndex() {
+
+        return index; //used for movement
+        
     }
 }
