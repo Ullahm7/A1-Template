@@ -17,8 +17,8 @@ public class Maze {
     }
 
     private void loadMaze(String filePath) {
-        //initialize to null or 0
-        BufferedReader reader = null; 
+        //initialize to null or 0 
+        BufferedReader reader = null;
         String line;
         rows = 0;
         cols = 0;
