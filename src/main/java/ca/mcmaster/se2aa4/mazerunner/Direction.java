@@ -1,51 +1,34 @@
 package ca.mcmaster.se2aa4.mazerunner;
+import java.util.EnumMap;
 
-public class Direction {
+public enum Direction {
+    NORTH, EAST, SOUTH, WEST; // direction that is facing
 
-    private static final String[] DIRECTIONS = {"NORTH", "EAST", "SOUTH", "WEST"};
-    private int index; //used to track direction
+    private static final Map<Direction, Direction> rightTurns = new HashMap<>(); 
+    private static final Map<Direction, Direction> leftTurns = new HashMap<>();
 
-    public Direction(String initialDirection) {
-        //initializing directional index based on the initial direction using a switch statement
-        switch (initialDirection) {
-            case "NORTH":
-                this.index = 0;
-                break;
-            case "EAST":
-                this.index = 1;
-                break;
-            case "SOUTH":
-                this.index = 2;
-                break;
-            case "WEST":
-                this.index = 3;
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid initial direction");
-        }
+    //stores values of turn left and rights
+    static {
+        rightTurns.put(NORTH, EAST);
+        rightTurns.put(EAST, SOUTH);
+        rightTurns.put(SOUTH, WEST);
+        rightTurns.put(WEST, NORTH);
+
+        leftTurns.put(NORTH, WEST);
+        leftTurns.put(EAST, NORTH);
+        leftTurns.put(SOUTH, EAST);
+        leftTurns.put(WEST, SOUTH);
     }
 
-    public String getCurrentDirection() {
+    public Direction turnRight() {
 
-        return DIRECTIONS[index];
+        return rightTurns.get(this); //turn right clockwise 
 
     }
 
-    public void turnLeft() {
+    public Direction turnLeft() {
 
-        index = (index + 3) % 4; //turn left (counter-clockwise)
-
-    }
-
-    public void turnRight() {
-
-        index = (index + 1) % 4; //turn right (clockwise)
-
-    }
-
-    public int getIndex() {
-
-        return index; //used for movement
-        
+        return leftTurns.get(this); //turn left counter-clockwise
+         
     }
 }
