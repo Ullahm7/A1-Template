@@ -1,8 +1,11 @@
 package ca.mcmaster.se2aa4.mazerunner;
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public enum Direction {
-    NORTH, EAST, SOUTH, WEST; // direction that is facing
+    NORTH, EAST, SOUTH, WEST; //direction that is facing
 
     private static final Map<Direction, Direction> rightTurns = new HashMap<>(); 
     private static final Map<Direction, Direction> leftTurns = new HashMap<>();
