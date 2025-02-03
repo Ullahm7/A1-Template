@@ -5,23 +5,23 @@ import java.util.List;
 
 public class Path {
 
-    private List<String> instructions; //list of instructions: forward, left, or right
+    private List<String> instructions; //list of instructions such as forward, left, or right
 
     public Path() {
 
-        instructions = new ArrayList<>();
+        instructions = new ArrayList<>(); //creates an instruction array
 
     }
 
     public void addInstruction(String instruction) {
 
-        instructions.add(instruction);
+        instructions.add(instruction); //adds instructions 
 
     }
 
     public String getCanonicalPath() {
 
-        StringBuilder canonicalPath = new StringBuilder();
+        String canonicalPath = "";
         int forwardCount = 0;  //count for consecutive 'F'
         String lastInstruction = "";  //to track the last valid instruction
 
@@ -30,37 +30,31 @@ public class Path {
             if (instruction.equals("F")) {
                 //increment count for consecutive 'F'
                 forwardCount++;
-                lastInstruction = "F";  // Update last instruction to 'F'
+                lastInstruction = "F";  //update last instruction to 'F'
 
-            } else if ("R".equals(instruction) || "L".equals(instruction)) {
-                //if moving forward count is non-zero, append it
+            } else {
+                //if the moving forward count is non zero, append it
                 if (forwardCount > 0) {
-
-                    canonicalPath.append(forwardCount > 1 ? forwardCount : "").append("F");
-                    forwardCount = 0;  
-
+                    canonicalPath += (forwardCount > 1 ? forwardCount : "") + "F"; //append forwards
+                    forwardCount = 0; //reset for the next instruction
                 }
-                
-                //append the turn if it's different from the last turn
+                //append turns
                 if (!instruction.equals(lastInstruction)) {
-
-                    canonicalPath.append(instruction);  //append turn instruction
-
-                    lastInstruction = instruction;  
+                    canonicalPath += instruction;  //append turn instruction
+                    lastInstruction = instruction;  //then update last instruction
                 }
             }
         }
 
         //append any remaining forward moves at the end of the iteration
         if (forwardCount > 0) {
-
-            canonicalPath.append(forwardCount > 1 ? forwardCount : "").append("F");
+            canonicalPath += (forwardCount > 1 ? forwardCount : "") + "F";
         }
 
-        return canonicalPath.toString();
+        return canonicalPath; 
     }
 
     public List<String> getInstructions() {
-        return instructions;
+        return instructions; //return the list of instructions
     }
 }

@@ -17,7 +17,7 @@ public class Main {
         options.addOption("i", "input", true, "File for maze");
         CommandLineParser parser = new DefaultParser();
 
-        logger.info("** Starting Maze Runner");
+        logger.ifnfo("** Starting Maze Runner");
         try {
 
             CommandLine cmd = parser.parse(options, args);
