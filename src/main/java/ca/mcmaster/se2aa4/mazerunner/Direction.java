@@ -7,7 +7,7 @@ import java.util.Map;
 public enum Direction {
     NORTH, EAST, SOUTH, WEST; //direction that is facing
 
-    private static final Map<Direction, Direction> rightTurns = new HashMap<>(); 
+    private static final Map<Direction, Direction> rightTurns = new HashMap<>();
     private static final Map<Direction, Direction> leftTurns = new HashMap<>();
 
     //stores values of turn left and rights
@@ -25,7 +25,7 @@ public enum Direction {
 
     public Direction turnRight() {
 
-        return rightTurns.get(this); //turn right clockwise 
+        return rightTurns.get(this); //turn right clockwise
 
     }
 

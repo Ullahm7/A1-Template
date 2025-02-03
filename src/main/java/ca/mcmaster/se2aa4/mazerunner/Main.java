@@ -1,8 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,34 +9,60 @@ public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
+        
+        logger.info("** Starting Maze Runner");
 
+        //argument for -i flag
         Options options = new Options();
-        options.addOption("i", "input", true, "File for maze");
-        CommandLineParser parser = new DefaultParser();
+        Option fileOption = new Option("i", true, "File that contains maze");
+        fileOption.setRequired(true);
+        options.addOption(fileOption);
 
-        logger.ifnfo("** Starting Maze Runner");
+        //argument for -p flag
+        options.addOption(new Option("p", true, "Maze path to be verified"));
+        CommandLineParser parser = new DefaultParser(); 
+
         try {
+            CommandLine commandLine = parser.parse(options, args);
+            String filePath = commandLine.getOptionValue('i'); //file assign text
+            Maze maze = new Maze(filePath);
 
-            CommandLine cmd = parser.parse(options, args);
-            String inputFile = cmd.getOptionValue('i');
-            logger.info("**** Reading the maze from file " + inputFile);
-            BufferedReader reader = new BufferedReader(new FileReader(inputFile));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                for (int idx = 0; idx < line.length(); idx++) {
-                    if (line.charAt(idx) == '#') {
-                        logger.info("WALL ");
-                    } else if (line.charAt(idx) == ' ') {
-                        logger.info("PASS ");
-                    }
+            if(commandLine.getOptionValue("p")!= null){ //if -p is not null
+                logger.info("Validating maze path"); //have to validate path
+                
+                Path path = new Path(commandLine.getOptionValue("p")); 
+                PathValidator validator = new PathValidator(maze);  
+                boolean valid = validator.checkPath(path);
+
+                if(valid){
+                    System.out.println("correct path");
                 }
-                logger.error(System.lineSeparator());
+                else{
+                    System.out.println("incorrect path");
+                }
             }
+
+            else{ //finding path for maze only
+                logger.info("**** Computing path");
+                logger.info(" " + maze.toString());
+
+                Solver solver = chooseSolver();
+                Path path = solver.solve(maze);
+
+                System.out.println(path.getFactorized());
+            }
+    
         } catch(Exception e) {
             logger.error("/!\\ An error has occured /!\\");
+            logger.error(e.getMessage());
+            logger.error("PATH NOT COMPUTED");
         }
-        logger.info("**** Computing path");
-        logger.error("PATH NOT COMPUTED");
+    
         logger.info("** End of MazeRunner");
     }
+
+    public static Solver chooseSolver(){
+        return new Solver();
+    }
+
 }

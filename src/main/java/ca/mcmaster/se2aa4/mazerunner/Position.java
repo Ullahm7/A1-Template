@@ -38,7 +38,7 @@ public class Position {
 
         //new position
         if (newX >= 0 && newY >= 0 && newX < maze.getRows() && newY < maze.getCols()) {
-            if (maze.getTile(newX, newY) == ' ') { 
+            if (maze.getTile(newX, newY) == ' ') {
                 this.x = newX;
                 this.y = newY;
             } else {
@@ -58,7 +58,7 @@ public class Position {
     }
 
     public String getCurrentPosition() {
-        return "(" + x + ", " + y + ") facing " + direction; //current position 
+        return "(" + x + ", " + y + ") facing " + direction; //current position
     }
 
     public int[] getCoordinates() {

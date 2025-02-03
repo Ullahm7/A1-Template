@@ -15,7 +15,7 @@ public class Path {
 
     public void addInstruction(String instruction) {
 
-        instructions.add(instruction); //adds instructions 
+        instructions.add(instruction); //adds instructions
 
     }
 
@@ -51,7 +51,7 @@ public class Path {
             canonicalPath.append(forwardCount > 1 ? forwardCount : "").append("F");
         }
 
-        return canonicalPath.toString(); 
+        return canonicalPath.toString();
     }
 
     public List<String> getInstructions() {
