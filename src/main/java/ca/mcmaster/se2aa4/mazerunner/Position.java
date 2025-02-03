@@ -2,7 +2,6 @@ package ca.mcmaster.se2aa4.mazerunner;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class Position {
 
     private int x;
@@ -37,35 +36,32 @@ public class Position {
         int newY = y + move[1];
 
         //new position
-        if (newX >= 0 && newY >= 0 && newX < maze.getRows() && newY < maze.getCols()) {
-            if (maze.getTile(newX, newY) == ' ') {
-                this.x = newX;
-                this.y = newY;
-            } else {
-                System.out.println("Hit a wall! Can't move forward.");
-            }
+        if (maze.getTile(newX, newY) == ' ') {
+            this.x = newX;
+            this.y = newY;
+            return true; //move was successful
         } else {
-            System.out.println("Out of bounds! Can't move forward.");
+            return false; //move failed (hit a wall)
         }
     }
 
     public void turnLeft() {
-        direction = direction.turnLeft(); //turn left
+        direction = direction.turnLeft();
     }
 
     public void turnRight() {
-        direction = direction.turnRight(); //turn right
+        direction = direction.turnRight();
     }
 
-    public String getCurrentPosition() {
-        return "(" + x + ", " + y + ") facing " + direction; //current position
+    public void setDirection(Direction direction) {
+        this.direction = direction; //set direction directly for exploration
     }
 
     public int[] getCoordinates() {
-        return new int[]{x, y}; //coordinates as array
+        return new int[]{x, y}; //get current coordinates as an array
     }
 
     public Direction getDirection() {
-        return direction; //return the current direction
+        return direction; 
     }
 }

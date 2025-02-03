@@ -1,14 +1,9 @@
-package ca.mcmaster.se2aa4.mazerunner;
-
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class Maze {
 
-    private static final Logger logger = LogManager.getLogger(Maze.class);
-    private ArrayList<ArrayList<Cell>> maze = new ArrayList<>();
     private char[][] grid; //create a grid either a wall or empty
     private int rows;
     private int cols;
@@ -20,53 +15,40 @@ public class Maze {
     }
 
     private void loadMaze(String filePath) {
-        //initialize to null or 0
-        BufferedReader reader = null;
-        String line;
-        rows = 0;
-        cols = 0;
-
-        //create maze dimension
-        try {
-            reader = new BufferedReader(new FileReader(filePath)); //buffered instance to read line
-            while ((line = reader.readLine()) != null) { //loop while null
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            rows = 0;
+            cols = 0;
+            while ((line = reader.readLine()) != null) {
                 if (line.length() > cols) {
-
-
-                    cols = line.length(); //updates if the current col is greater than previous
-
-
+                    cols = line.length();
                 }
-                rows++; //each new line, a new row is updated
+                rows++;
             }
 
-            grid = new char[rows][cols]; //creates a grid
-            reader.close();
-            reader = new BufferedReader(new FileReader(filePath));
+            grid = new char[rows][cols]; 
+            reader.mark(1000);  //reset the reader to read again
+            reader.reset();
             int rowIndex = 0;
 
-            //fill the dimensions with either empty or full
             while ((line = reader.readLine()) != null) {
                 for (int colIndex = 0; colIndex < line.length(); colIndex++) {
-                    grid[rowIndex][colIndex] = line.charAt(colIndex); // Fill the grid
+                    grid[rowIndex][colIndex] = line.charAt(colIndex);
                 }
                 rowIndex++;
             }
-            reader.close(); //close the reader when done
-        } catch (Exception e) {
-            //placeholder when  error handling implemented
+        } catch (IOException e) {
+            System.err.println("Error reading maze file: " + e.getMessage());
         }
     }
 
-    //returns a specific character at a specific position
     public char getTile(int x, int y) {
         if (x >= 0 && x < rows && y >= 0 && y < cols) {
             return grid[x][y];
         }
-        return '#'; //used as a placeholder if not in grid
+        return '#'; //treat out-of-bounds as a wall
     }
 
-    //getter and setters for other classes
     public int getRows() {
         return rows;
     }
@@ -75,23 +57,21 @@ public class Maze {
         return cols;
     }
 
-    //method to find the entry point
     public int[] getEntryPoint() {
         for (int i = 0; i < rows; i++) {
             if (grid[i][0] == ' ') {
-                return new int[]{i, 0}; //
+                return new int[]{i, 0}; //entry found at the leftmost column
             }
         }
-        return null; //no entry point found
+        return null;
     }
 
-    //method to find the exit point
     public int[] getExitPoint() {
         for (int i = 0; i < rows; i++) {
             if (grid[i][cols - 1] == ' ') {
-                return new int[]{i, cols - 1}; //
+                return new int[]{i, cols - 1}; //exit found at the rightmost column
             }
         }
-        return null; //no exit point found, placeholder for now
+        return null; 
     }
 }

@@ -20,33 +20,22 @@ public class Path {
     }
 
     public String getCanonicalPath() {
-
         StringBuilder canonicalPath = new StringBuilder();
-        int forwardCount = 0;  //count for consecutive 'F'
-        String lastInstruction = "";  //to track the last valid instruction
+        int forwardCount = 0;  // Count for consecutive 'F'
 
         for (String instruction : instructions) {
-
             if (instruction.equals("F")) {
-                //increment count for consecutive 'F'
                 forwardCount++;
-                lastInstruction = "F";  //update last instruction to 'F'
-
             } else {
-                //if the moving forward count is non zero, append it
                 if (forwardCount > 0) {
-                    canonicalPath.append(forwardCount > 1 ? forwardCount : "").append("F"); //append forwards
-                    forwardCount = 0; //reset for the next instruction
+                    canonicalPath.append(forwardCount > 1 ? forwardCount : "").append("F");
+                    forwardCount = 0; // Reset for the next instruction
                 }
-                //append turns
-                if (!instruction.equals(lastInstruction)) {
-                    canonicalPath.append(instruction);  //append turn instruction
-                    lastInstruction = instruction;  //then update last instruction
-                }
+                canonicalPath.append(instruction); // Append turns
             }
         }
 
-        //append any remaining forward moves at the end of the iteration
+        // Append remaining forward moves if any
         if (forwardCount > 0) {
             canonicalPath.append(forwardCount > 1 ? forwardCount : "").append("F");
         }
@@ -55,6 +44,6 @@ public class Path {
     }
 
     public List<String> getInstructions() {
-        return instructions; //return the list of instructions
+        return instructions;
     }
 }

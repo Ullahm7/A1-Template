@@ -3,7 +3,6 @@ import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public enum Direction {
     NORTH, EAST, SOUTH, WEST; //direction that is facing
 
